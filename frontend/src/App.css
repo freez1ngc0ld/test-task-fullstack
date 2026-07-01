@@ -1,0 +1,121 @@
+:root {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --border-color: #ffffff;
+  --accent-green: #00ff41; 
+  --accent-red: #ff3e3e;   
+  --accent-white: #ffffff;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Courier New', monospace; 
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--text-color);
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: var(--text-color);
+  color: var(--bg-color);
+}
+
+button.btn-green { background: var(--accent-green); color: black; border-color: var(--accent-green); }
+button.btn-red { background: var(--accent-red); color: white; border-color: var(--accent-red); }
+button.btn-white { background: var(--accent-white); color: black; border-color: var(--accent-white); }
+
+button:disabled {
+  border-color: #555;      
+  color: #555;             
+  background: transparent; 
+  cursor: not-allowed;     
+  opacity: 0.5;            
+  pointer-events: none;    
+}
+
+button.btn-green:disabled,
+button.btn-red:disabled {
+  background: #333;        
+  border-color: #555;
+  color: #777;
+  opacity: 0.6;
+}
+
+input {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-color);
+  padding: 10px;
+  font-family: inherit;
+  outline: none;
+}
+
+input:focus {
+  background: #222;
+}
+
+.form-container {
+  border: 2px solid var(--border-color);
+  padding: 20px;
+  background: #111;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.app-item {
+  border: 2px solid var(--border-color);
+  padding: 15px;
+  background: #000;
+  margin-bottom: 10px;
+}
+
+.app-item strong {
+  font-size: 1.2em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.app-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid white;
+  font-size: 0.7em;
+  margin-right: 5px;
+}
+
+.priority-high { border-color: var(--accent-red); color: var(--accent-red); }
+.priority-low { border-color: cyan; }
+
+.app-card {
+  border: 2px solid var(--border-color);
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #000;
+  transition: background 0.2s;
+}
+
+.app-card.selected {
+  background: #222; 
+  border-color: var(--accent-green); 
+}
+
+.app-card.done {
+  opacity: 0.5;
+}
