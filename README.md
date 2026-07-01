@@ -30,6 +30,18 @@ npm install
 npm run dev
 ```
 
+## Тестирование бекенда
+
+```bash
+pytest -v 
+```
+
+**или если через `uv`**
+
+```bash
+uv run pytest -v 
+```
+
 ## Скрины
 ![Главная страница 1](screenshots/main1.png) 
 ![Главная страница 2](screenshots/main2.png) 
