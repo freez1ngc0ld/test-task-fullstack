@@ -6,6 +6,7 @@ from src.core.security.token_manager import TokenManager
 from src.core.config import settings
 from src.features.admin.models import AdminModel
 from src.features.admin.repositories import AdminRepository
+from src.features.admin.exceptions import PermissionException
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='admin/signin')
 token_manager = TokenManager(secret_key=settings.SECRET_KEY)
@@ -16,5 +17,5 @@ async def get_current_admin(token: str = Depends(oauth2_scheme), db: AsyncSessio
     admin_repo = AdminRepository(db)
     admin = await admin_repo.get_by_id(id=admin_id)
     if not admin:
-        raise PermissionError()
+        raise PermissionException()
     return admin
