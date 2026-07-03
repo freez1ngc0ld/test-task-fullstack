@@ -65,6 +65,16 @@ export const ApplicationList = () => {
     }
   };
 
+  const handleStatusChange = async (appId: string, newStatus: string) => {
+    try {
+      await applicationApi.update(appId, { status: newStatus });
+      queryClient.invalidateQueries({ queryKey: ['applications'] });
+      setFormError(null);
+    } catch (err: any) {
+      setFormError(err.response?.data?.detail || "Ошибка смены статуса");
+    }
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       {admin ? <AdminPanel /> : <button className="btn-white" onClick={() => setShowLogin(true)}>ВХОД ДЛЯ АДМИНИСТРАТОРА</button>}
@@ -80,9 +90,9 @@ export const ApplicationList = () => {
       <hr style={{ margin: '20px 0', borderColor: 'white' }} />
 
       {formError && (
-        <div style={{ color: 'red', marginBottom: '20px', padding: '10px', border: '1px solid red' }}>
+        <p style={{ color: 'var(--accent-red)', marginBottom: '20px', padding: '10px', border: '1px solid var(--accent-red)', fontWeight: 'bold' }}>
           {formError}
-        </div>
+        </p>
       )}
 
       {(isCreating || editingApp) && (
@@ -117,7 +127,7 @@ export const ApplicationList = () => {
               <div key={app.id} className={`app-card ${isSelected ? 'selected' : ''} ${isDone ? 'done' : ''}`}>
                 <ApplicationItem app={app} />
                 
-                <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+                <div style={{ marginTop: '10px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {admin && !isDone && (
                     <button className={isSelected ? 'btn-green' : 'btn-white'} onClick={() => toggleSelect(app.id)}>
                       {isSelected ? 'ВЫБРАНО ✅' : 'ВЫБРАТЬ'}
@@ -125,7 +135,15 @@ export const ApplicationList = () => {
                   )}
                   
                   {!isDone ? (
-                    <button className="btn-white" onClick={() => setEditingApp(app)}>ИЗМЕНИТЬ</button>
+                    <>
+                      <button className="btn-white" onClick={() => setEditingApp(app)}>ИЗМЕНИТЬ</button>
+                      {app.status === 'new' && (
+                        <button className="btn-white" onClick={() => handleStatusChange(app.id, 'in_progress')}>В РАБОТУ 🚀</button>
+                      )}
+                      {app.status === 'in_progress' && (
+                        <button className="btn-green" onClick={() => handleStatusChange(app.id, 'done')}>ЗАВЕРШИТЬ ✅</button>
+                      )}
+                    </>
                   ) : (
                     <span style={{ fontSize: '0.8em', opacity: 0.6, marginTop: '10px' }}>(ЗАВЕРШЕНО)</span>
                   )}

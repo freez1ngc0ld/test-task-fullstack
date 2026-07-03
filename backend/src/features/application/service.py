@@ -6,8 +6,16 @@ from .repositories import ApplicationRepository
 from .schemas import ApplicationSchema
 from .exceptions import (
     ApplicationNotFoundException,
-    CantTouchDoneApplicationException
+    CantTouchDoneApplicationException,
+    CantSetStatusLess
 )
+
+
+statuses = {
+    StatusType.NEW: 1,
+    StatusType.IN_PROGRESS: 2,
+    StatusType.DONE: 3
+}
 
 
 class ApplicationService:
@@ -50,10 +58,10 @@ class ApplicationService:
     async def update_application(
             self, 
             application_id: str, 
-            title: str | None, 
-            description: str | None, 
-            status: StatusType | None, 
-            priority: PriorityType | None
+            title: str | None = None, 
+            description: str | None = None, 
+            status: StatusType | None = None, 
+            priority: PriorityType | None = None
     ) -> ApplicationSchema:
         application = await self.application_repo.get(id=application_id)
         if not application:
@@ -65,6 +73,8 @@ class ApplicationService:
         if description is not None:
             application.description = description
         if status is not None:
+            if statuses[application.status] > statuses[status]:
+                raise CantSetStatusLess()
             application.status = status
         if priority is not None:
             application.priority = priority

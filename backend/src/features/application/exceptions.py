@@ -6,3 +6,6 @@ class ApplicationNotFoundException(ApplicationException):
 
 class CantTouchDoneApplicationException(ApplicationException):
     ...
+
+class CantSetStatusLess(ApplicationException):
+    ...

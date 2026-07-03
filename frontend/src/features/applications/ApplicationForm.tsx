@@ -23,7 +23,6 @@ export const ApplicationForm = ({ initialData, onSubmit, onCancel, error }: Prop
       setLocalError("ДЛИНА ЗАГОЛОВКА ДОЛЖНА БЫТЬ ОТ 3 ДО 120 СИМВОЛОВ");
       return;
     }
-    
     setLocalError(null);
     onSubmit(form);
   };
@@ -39,9 +38,9 @@ export const ApplicationForm = ({ initialData, onSubmit, onCancel, error }: Prop
         </h2>
 
         {(error || localError) && (
-          <div style={{ color: 'var(--accent-red)', marginBottom: '15px', fontWeight: 'bold' }}>
+          <p style={{ color: 'var(--accent-red)', marginBottom: '15px', fontWeight: 'bold' }}>
             {error || localError}
-          </div>
+          </p>
         )}
 
         <div className="form-group">
@@ -59,24 +58,26 @@ export const ApplicationForm = ({ initialData, onSubmit, onCancel, error }: Prop
             onChange={e => setForm({...form, description: e.target.value})} 
             style={{ 
               background: 'transparent', border: '2px solid white', color: 'white', 
-              padding: '10px', height: '100px', resize: 'none', fontFamily: 'inherit' 
+              padding: '10px', height: '100px', resize: 'none', fontFamily: 'inherit', width: '100%' 
             }}
           />
 
-          <select 
-            value={form.status} 
-            onChange={e => setForm({...form, status: e.target.value as any})}
-            style={{ background: 'black', color: 'white', padding: '10px', border: '2px solid white' }}
-          >
-            <option value="new">NEW</option>
-            <option value="in_progress">IN PROGRESS</option>
-            <option value="done">DONE</option>
-          </select>
+          {!initialData && (
+            <select 
+              value={form.status} 
+              onChange={e => setForm({...form, status: e.target.value as any})}
+              style={{ background: 'black', color: 'white', padding: '10px', border: '2px solid white', width: '100%' }}
+            >
+              <option value="new">NEW</option>
+              <option value="in_progress">IN PROGRESS</option>
+              <option value="done">DONE</option>
+            </select>
+          )}
 
           <select 
             value={form.priority} 
             onChange={e => setForm({...form, priority: e.target.value as any})}
-            style={{ background: 'black', color: 'white', padding: '10px', border: '2px solid white' }}
+            style={{ background: 'black', color: 'white', padding: '10px', border: '2px solid white', width: '100%' }}
           >
             <option value="low">LOW</option>
             <option value="normal">NORMAL</option>
